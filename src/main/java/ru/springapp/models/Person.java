@@ -10,6 +10,7 @@ import javax.validation.constraints.*;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Person {
     private int id;
 

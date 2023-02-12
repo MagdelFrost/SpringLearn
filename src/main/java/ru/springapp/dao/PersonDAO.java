@@ -42,13 +42,14 @@ public class PersonDAO {
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO PEOPLE (name, age, email) VALUES( ?, ?, ?)",
-                person.getName(), person.getAge(), person.getEmail());
+        jdbcTemplate.update("INSERT INTO PEOPLE (name, age, email, address) VALUES( ?, ?, ?, ?)",
+                person.getName(), person.getAge(), person.getEmail(), person.getAddress());
     }
 
     public void update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE PEOPLE SET name=?, age=?, email=? WHERE id=?",
-                updatedPerson.getName(), updatedPerson.getAge(), updatedPerson.getEmail(), id);
+        jdbcTemplate.update("UPDATE PEOPLE SET name=?, age=?, email=?, address=? WHERE id=?",
+                updatedPerson.getName(), updatedPerson.getAge(),
+                updatedPerson.getEmail(), updatedPerson.getAddress(), id);
     }
 
     public void delete(int id) {
@@ -63,8 +64,8 @@ public class PersonDAO {
         long before = System.currentTimeMillis();
 
         for (Person person : people) {
-            jdbcTemplate.update("INSERT INTO PEOPLE (name, age, email) VALUES( ?, ?, ?)",
-                    person.getId(), person.getName(), person.getAge(), person.getEmail());
+            jdbcTemplate.update("INSERT INTO PEOPLE (name, age, email, address) VALUES( ?, ?, ?, ?)",
+                    person.getId(), person.getName(), person.getAge(), person.getEmail(), person.getAddress());
         }
 
         long after = System.currentTimeMillis();
@@ -77,13 +78,14 @@ public class PersonDAO {
 
         long before = System.currentTimeMillis();
 
-        jdbcTemplate.batchUpdate("INSERT INTO PEOPLE (name, age, email) VALUES( ?, ?, ?)",
+        jdbcTemplate.batchUpdate("INSERT INTO PEOPLE (name, age, email, address) VALUES( ?, ?, ?, ?)",
                 new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
                         preparedStatement.setString(1, people.get(i).getName());
                         preparedStatement.setInt(2, people.get(i).getAge());
                         preparedStatement.setString(3, people.get(i).getEmail());
+                        preparedStatement.setString(4, people.get(i).getAddress());
                     }
 
                     @Override
@@ -101,7 +103,7 @@ public class PersonDAO {
         List<Person> people = new ArrayList<>();
 
         for (int i = 0; i< 1000; i++) {
-            people.add(new Person(i, "TestMan" + i, i*10, String.format("testman%s@gmail.com", i)));
+            people.add(new Person(i, "TestMan" + i, i*10, String.format("testman%s@gmail.com", i), "adress"));
         }
 
         return people;

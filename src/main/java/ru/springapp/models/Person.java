@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class Person {
     private int id;
 
@@ -27,4 +26,7 @@ public class Person {
     @NotEmpty(message = "Email should not be empty")
     @Email(message = "Email should be valid")
     private String email;
+
+    @NotEmpty(message = "Address should not be empty")
+    private String address;
 }
